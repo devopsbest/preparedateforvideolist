@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/semantic-ui/2.4.0/semantic.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/clipboard.js/2.0.1/clipboard.min.js"></script>
+    <link href="https://cdn.bootcss.com/semantic-ui/2.4.0/semantic.css" rel="stylesheet">
+</head>
+<body>
+<div class="ui fixed inverted menu" id="main-nav">
+  <a class="active item" href="{{url_for('index') }}">arrangevideo</a>
+
+</div>
+
+{% block body %} {% endblock %}
+
+
+</body>
+</html>

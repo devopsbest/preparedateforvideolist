@@ -1,0 +1,141 @@
+{% extends 'layout.html' %}
+{% block title %}{{ 'pass 331 for s18' }}{% endblock %}
+{% block body %}
+    <div class="vediolist" style="margin: 100px;">
+
+        {% raw %}
+        <div id="app">
+            <div>
+                <p>please select env</p>
+
+                <select v-model="selected" class="ui selection dropdown">
+                    <option disabled value="">Please Select</option>
+                    <option :value="env.name" v-for="env in envList">{{env.id}}</option>
+                </select>
+                <br>
+                <br>
+                <p>user ";" to separate each</p>
+
+                <div class="ui fluid input">
+
+                    <label>Memberid</label>
+
+                    <input v-model="member" placeholder="memberid...">
+
+                    <br>
+
+                    <label>Userid</label>
+
+                    <input v-model="trial" placeholder="trialuserid...">
+                </div>
+                <br>
+                <div>
+
+                    <button class="ui primary button" @click="push_video" :class="{loading:loaded}">Submit</button>
+
+                </div>
+            </div>
+            <span>Selected: {{ selected }}</span>
+
+            <div class="ui icon message" :class="{hidden: show }">
+                <i class="notched circle loading icon"></i>
+                <div class="content">
+                    <div class="header">稍候</div>
+                    <p>我们正在为您获取内容。</p>
+                </div>
+            </div>
+
+
+        </div>
+        {% endraw %}
+
+        <script>
+
+            var app1 = new Vue({
+                el: '#app',
+                data: {
+                    member: '',
+                    trial: '',
+                    selected: '',
+                    password: '',
+                    envList: [
+                        {
+                            id: 'uatcn',
+                            name: 'uatcn'
+                        },
+                        {
+                            id: 'uatus',
+                            name: 'uatus'
+
+                        },
+                        {
+                            id: 'qacn',
+                            name: 'qacn'
+                        },
+                        {
+                            id: 'qaus',
+                            name: 'qaus'
+
+                        },
+                        {
+                            id: 'stagingcn',
+                            name: 'stagingcn'
+                        },
+                        {
+                            id: 'stagingus',
+                            name: 'stagingus'
+                        },
+                    ],
+                    loaded: false,
+                    show: true,
+                    seen: false,
+                },
+
+                methods: {
+
+                    push_video() {
+                        this.loaded = true;
+
+                        this.show = false;
+                        this.see = true;
+                        axios.get('/trigger', {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                            },
+                            crossDomain: true,
+                            contentType: "application/json",
+                            params: {
+                                memberid: this.member,//接口配置参数（相当于url?id=xxxx)
+                                userid: this.trial,
+                                env: this.selected,
+                            },
+                        })
+
+                            .then((response) => {
+                                this.password = response.data['result'];
+                                this.loaded = false;
+
+                                this.show = true;
+                                this.see = false;
+
+                                console.log(response.data['result']);
+                                console.log(response.data['env']);
+                                console.log(response.data['member']);
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+
+                    }
+
+
+                }
+            })
+
+
+        </script>
+    </div>
+{% endblock %}
+
+</body>
+</html>
